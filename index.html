@@ -1,0 +1,2939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Diario Personal Avanzado</title>
+    <style>
+:root {
+    /* MODO CLARO - Paleta Pastel Sólida */
+    --bg-primary: #F8F9FA;
+    --bg-secondary: #FFFFFF;
+    --bg-tertiary: #F1F3F5;
+    --bg-card: #FFFFFF;
+    
+    --text-primary: #2C3E50;
+    --text-secondary: #5A6C7D;
+    --text-muted: #8B9DAE;
+    
+    /* Colores principales de tu paleta */
+    --coral: #F76C6C;
+    --pink: #F99797;
+    --navy: #23305E;
+    --sky: #A8D0E6;
+    --slate: #39424E;
+    
+    /* Variantes más claras para fondos */
+    --coral-light: #FFE5E5;
+    --pink-light: #FFE8EC;
+    --navy-light: #E8ECF5;
+    --sky-light: #E8F4F8;
+    
+    --accent: #A8D0E6;
+    --accent-hover: #8FC4DD;
+    --accent-secondary: #F99797;
+    
+    --border: #E8EBED;
+    --border-strong: #D4D9DD;
+    --success: #A8D0E6;
+    --danger: #F99797;
+    --warning: #FFD3A8;
+    --shadow-sm: rgba(35, 48, 94, 0.06);
+    --shadow-md: rgba(35, 48, 94, 0.1);
+    --shadow-lg: rgba(35, 48, 94, 0.15);
+}
+
+[data-theme="dark"] {
+    /* MODO NOCTURNO */
+    --bg-primary: #1A1F2E;
+    --bg-secondary: #252B3C;
+    --bg-tertiary: #2F3648;
+    --bg-card: #2A3142;
+    
+    --text-primary: #E8EAED;
+    --text-secondary: #B8BCC4;
+    --text-muted: #8B92A0;
+    
+    --coral: #E86B6B;
+    --pink: #E88C8C;
+    --navy: #4A5A8E;
+    --sky: #7AB8D4;
+    --slate: #3A4454;
+    
+    --coral-light: #3A2828;
+    --pink-light: #3A2C2E;
+    --navy-light: #2A2E3A;
+    --sky-light: #2A3440;
+    
+    --accent: #7AB8D4;
+    --accent-hover: #6AAAC7;
+    --accent-secondary: #E88C8C;
+    
+    --border: #3A4256;
+    --border-strong: #4A5268;
+    --success: #7AB8D4;
+    --danger: #E88C8C;
+    --warning: #D4A574;
+    --shadow-sm: rgba(0, 0, 0, 0.2);
+    --shadow-md: rgba(0, 0, 0, 0.3);
+    --shadow-lg: rgba(0, 0, 0, 0.4);
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animaciones suaves globales */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(12px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0; 
+        transform: translateX(-8px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0); 
+    }
+}
+
+@keyframes scaleIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+.app-container { 
+    display: flex; 
+    height: 100vh; 
+    overflow: hidden; 
+}
+
+/* ========================================
+   TIPOGRAFÍA
+   ======================================== */
+
+h1, .login-box h1 { 
+    color: var(--navy); 
+    font-weight: 700; 
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+h2, h3, .sidebar-header h2, .editor-title { 
+    color: var(--sky); 
+    font-weight: 600; 
+    font-family: 'Nunito', sans-serif;
+}
+
+h4, .stat-card h4, .editor-mood-section h4 {
+    color: var(--navy);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* ========================================
+   LOGIN SCREEN
+   ======================================== */
+
+.login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: var(--sky-light);
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .login-screen {
+    background: var(--bg-primary);
+}
+
+.login-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 8px 32px var(--shadow-md);
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.login-box h1 { 
+    font-size: 2.2rem; 
+    font-weight: 700; 
+    margin-bottom: 10px;
+}
+
+.login-box p { 
+    color: var(--text-secondary); 
+    margin-bottom: 32px; 
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.form-group { 
+    margin-bottom: 22px; 
+}
+
+.form-group label { 
+    display: block; 
+    margin-bottom: 8px; 
+    color: var(--text-secondary); 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 0 4px rgba(168, 208, 230, 0.12);
+}
+
+/* ========================================
+   BOTONES - Sin degradados, colores sólidos
+   ======================================== */
+
+.btn {
+    padding: 13px 28px;
+    background: var(--sky);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px var(--shadow-md);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+.btn-block { 
+    width: 100%; 
+}
+
+.btn-secondary { 
+    background: var(--bg-tertiary); 
+    color: var(--text-primary); 
+    border: 1px solid var(--border); 
+}
+
+.btn-secondary:hover { 
+    background: var(--bg-card);
+    border-color: var(--border-strong);
+}
+
+.btn-danger { 
+    background: var(--pink);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: var(--coral);
+}
+
+.btn-success { 
+    background: var(--sky);
+    color: white;
+}
+
+.btn-success:hover {
+    background: var(--accent-hover);
+}
+
+.error-message {
+    background: var(--pink-light);
+    border: 1px solid var(--pink);
+    color: var(--coral);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    animation: slideIn 0.3s ease;
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
+.sidebar {
+    width: 320px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--sky-light);
+}
+
+[data-theme="dark"] .sidebar-header {
+    background: var(--bg-card);
+}
+
+.profile-pic {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--sky);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--border);
+    box-shadow: 0 4px 12px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
+}
+
+.profile-pic:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px var(--shadow-md);
+    background: var(--accent-hover);
+}
+
+.profile-pic img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.sidebar-header-info h2 { 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+    margin-bottom: 2px; 
+    color: var(--navy);
+}
+
+.user-name { 
+    color: var(--text-secondary); 
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.sidebar-nav {
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    height: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: var(--sky);
+    border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+.nav-tab {
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-tab:hover { 
+    background: var(--bg-tertiary); 
+    border-color: var(--border);
+}
+
+.nav-tab.active { 
+    background: var(--sky);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+.sidebar-content { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 12px 8px;
+}
+
+.sidebar-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: var(--sky);
+    border-radius: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* ========================================
+   ENTRY ITEMS - Colores diferenciados
+   ======================================== */
+
+.entry-item {
+    padding: 16px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border);
+    position: relative;
+    background: var(--bg-card);
+    box-shadow: 0 1px 3px var(--shadow-sm);
+}
+
+.entry-item:hover { 
+    background: var(--sky-light); 
+    border-color: var(--sky);
+    box-shadow: 0 4px 12px var(--shadow-md);
+    transform: translateX(4px);
+}
+
+.entry-item.active { 
+    background: var(--sky);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 16px var(--shadow-md);
+}
+
+.entry-mood { 
+    position: absolute; 
+    top: 16px; 
+    right: 16px; 
+    font-size: 1.4rem;
+    filter: drop-shadow(0 1px 2px var(--shadow-sm));
+}
+
+.entry-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 40px;
+}
+
+.entry-date { 
+    font-size: 0.82rem; 
+    opacity: 0.75; 
+    font-family: 'JetBrains Mono', monospace; 
+}
+
+.entry-tags { 
+    margin-top: 10px; 
+    display: flex; 
+    gap: 6px; 
+    flex-wrap: wrap; 
+}
+
+.tag-pill {
+    padding: 4px 10px;
+    background: var(--navy-light);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    border: 1px solid var(--border);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    color: var(--navy);
+}
+
+[data-theme="dark"] .tag-pill {
+    background: var(--bg-tertiary);
+    color: var(--sky);
+}
+
+.entry-item.active .tag-pill {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.3);
+    color: white;
+}
+
+/* ========================================
+   CALENDAR - Con colores de la paleta
+   ======================================== */
+
+.calendar-container { 
+    padding: 16px; 
+}
+
+.calendar-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.calendar-container::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.calendar-container::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 4px;
+}
+
+.calendar-container::-webkit-scrollbar-thumb:hover {
+    background: var(--coral);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.calendar-header h3 { 
+    font-size: 1.15rem; 
+    font-weight: 600; 
+}
+
+.calendar-nav { 
+    display: flex; 
+    gap: 8px; 
+}
+
+.calendar-nav button {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--navy);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+}
+
+.calendar-nav button:hover { 
+    background: var(--sky);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+.calendar-grid { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 6px; 
+}
+
+.calendar-day-name {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    padding: 8px 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid var(--border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-card);
+    font-weight: 500;
+    box-shadow: 0 1px 2px var(--shadow-sm);
+}
+
+.calendar-day:hover { 
+    background: var(--sky-light); 
+    border-color: var(--sky);
+    box-shadow: 0 2px 6px var(--shadow-sm);
+    transform: scale(1.05);
+}
+
+.calendar-day.has-entry { 
+    background: var(--pink);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    border-color: transparent;
+}
+
+.calendar-day.today { 
+    border-color: var(--navy); 
+    border-width: 2px;
+    font-weight: 600;
+}
+
+.calendar-day.other-month { 
+    opacity: 0.25; 
+}
+
+.calendar-day-mood { 
+    position: absolute; 
+    bottom: 2px; 
+    right: 2px; 
+    font-size: 0.65rem; 
+}
+
+/* ========================================
+   STATS CARDS - Colores variados
+   ======================================== */
+
+.stats-container { 
+    padding: 16px; 
+}
+
+.stats-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.stats-container::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.stats-container::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 4px;
+}
+
+.stats-container::-webkit-scrollbar-thumb:hover {
+    background: var(--coral);
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 4px solid var(--sky);
+}
+
+.stat-card:nth-child(2) {
+    border-left-color: var(--pink);
+}
+
+.stat-card:nth-child(3) {
+    border-left-color: var(--navy);
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 16px var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.stat-card h4 { 
+    font-size: 0.95rem; 
+    margin-bottom: 12px; 
+    color: var(--navy);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.stat-value { 
+    font-size: 2.4rem; 
+    font-weight: 700; 
+    color: var(--sky);
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+}
+
+.stat-card:nth-child(2) .stat-value {
+    color: var(--pink);
+}
+
+.stat-card:nth-child(3) .stat-value {
+    color: var(--navy);
+}
+
+.stat-label { 
+    font-size: 0.85rem; 
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.streak-container { 
+    display: flex; 
+    gap: 5px; 
+    margin-top: 14px; 
+}
+
+.streak-day {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.streak-day.active { 
+    background: var(--sky);
+    border-color: transparent;
+    box-shadow: 0 1px 4px var(--shadow-sm);
+}
+
+/* ========================================
+   MAIN EDITOR
+   ======================================== */
+
+.main-content { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; 
+}
+
+.editor-header {
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    background: var(--bg-secondary);
+    box-shadow: 0 1px 3px var(--shadow-sm);
+}
+
+.editor-title { 
+    font-size: 1.05rem; 
+    font-weight: 600; 
+}
+
+.editor-actions { 
+    display: flex; 
+    gap: 10px; 
+    align-items: center; 
+}
+
+.icon-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--navy);
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.15rem;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+}
+
+.icon-btn:hover { 
+    background: var(--sky);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 12px var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.icon-btn:nth-child(2):hover {
+    background: var(--pink);
+}
+
+.icon-btn:nth-child(3):hover {
+    background: var(--navy);
+}
+
+.editor-container { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 48px; 
+}
+
+.editor { 
+    max-width: 900px; 
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease;
+}
+
+/* ========================================
+   MOOD & TAGS SECTIONS - Colores específicos
+   ======================================== */
+
+.editor-mood-section {
+    margin-bottom: 32px;
+    padding: 26px;
+    background: var(--pink-light);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 2px 10px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .editor-mood-section {
+    background: var(--bg-card);
+}
+
+.editor-mood-section:hover {
+    box-shadow: 0 4px 16px var(--shadow-md);
+}
+
+.editor-mood-section h4 { 
+    font-size: 0.95rem; 
+    margin-bottom: 18px; 
+    color: var(--navy);
+    font-weight: 600;
+}
+
+.mood-selector { 
+    display: flex; 
+    gap: 14px; 
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mood-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 16px 14px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--bg-card);
+    min-width: 80px;
+}
+
+.mood-option:hover { 
+    background: var(--sky-light);
+    border-color: var(--sky);
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    transform: translateY(-3px);
+}
+
+.mood-option.selected { 
+    border-color: transparent;
+    background: var(--sky);
+    box-shadow: 0 4px 12px var(--shadow-md);
+    transform: scale(1.05);
+}
+
+.mood-emoji { 
+    font-size: 2.6rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mood-option:hover .mood-emoji {
+    transform: scale(1.15);
+}
+
+.mood-label { 
+    font-size: 0.82rem; 
+    color: var(--text-secondary); 
+    font-weight: 500;
+}
+
+.mood-option.selected .mood-label {
+    color: white;
+    font-weight: 600;
+}
+
+.editor input[type="text"] {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: -0.03em;
+    transition: color 0.3s ease;
+}
+
+.editor input[type="text"]:focus { 
+    outline: none; 
+}
+
+.editor input[type="text"]::placeholder { 
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.editor textarea {
+    width: 100%;
+    min-height: 450px;
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    resize: none;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.editor textarea:focus { 
+    outline: none; 
+}
+
+.editor textarea::placeholder { 
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.editor-tags-section {
+    margin-top: 28px;
+    padding: 24px;
+    background: var(--navy-light);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 2px 10px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .editor-tags-section {
+    background: var(--bg-card);
+}
+
+.editor-tags-section:hover {
+    box-shadow: 0 4px 16px var(--shadow-md);
+}
+
+.editor-tags-section h4 {
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+}
+
+.tags-input-container { 
+    display: flex; 
+    gap: 10px; 
+    margin-top: 14px; 
+}
+
+.tags-input-container input {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tags-input-container input:focus {
+    outline: none;
+    border-color: var(--navy);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 0 4px rgba(35, 48, 94, 0.1);
+}
+
+.selected-tags { 
+    display: flex; 
+    gap: 8px; 
+    flex-wrap: wrap; 
+    margin-top: 14px; 
+}
+
+.selected-tag {
+    padding: 8px 16px;
+    background: var(--navy);
+    color: white;
+    border-radius: 16px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 6px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.selected-tag:nth-child(2n) {
+    background: var(--pink);
+}
+
+.selected-tag:nth-child(3n) {
+    background: var(--sky);
+}
+
+.selected-tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 10px var(--shadow-md);
+}
+
+.selected-tag button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.selected-tag button:hover {
+    transform: scale(1.2);
+}
+
+.editor-images-section { 
+    margin-top: 28px; 
+}
+
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.image-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-item:hover {
+    box-shadow: 0 4px 16px var(--shadow-md);
+    transform: scale(1.02);
+}
+
+.image-item img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.image-item-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--coral);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.image-item:hover .image-item-delete { 
+    opacity: 1; 
+}
+
+.add-image-btn {
+    aspect-ratio: 1;
+    background: var(--bg-card);
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: var(--text-muted);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-image-btn:hover { 
+    border-color: var(--sky);
+    color: var(--sky);
+    background: var(--sky-light);
+    transform: scale(1.02);
+}
+
+/* ========================================
+   MODAL
+   ======================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.active { 
+    display: flex; 
+}
+
+.modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    width: 90%;
+    max-width: 580px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px var(--shadow-lg);
+    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal h3 { 
+    font-size: 1.7rem; 
+    margin-bottom: 24px; 
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.modal-actions { 
+    display: flex; 
+    gap: 12px; 
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+/* ========================================
+   SEARCH
+   ======================================== */
+
+.search-container { 
+    padding: 16px; 
+}
+
+.search-input {
+    width: 100%;
+    padding: 13px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px var(--shadow-sm);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--sky);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 0 4px rgba(168, 208, 230, 0.12);
+}
+
+.search-results { 
+    max-height: 500px; 
+    overflow-y: auto; 
+}
+
+.search-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--navy);
+    border-radius: 4px;
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: var(--slate);
+}
+
+.search-result-item {
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    border-left: 3px solid var(--pink);
+}
+
+.search-result-item:nth-child(2n) {
+    border-left-color: var(--sky);
+}
+
+.search-result-item:nth-child(3n) {
+    border-left-color: var(--navy);
+}
+
+.search-result-item:hover { 
+    background: var(--sky-light);
+    border-color: var(--sky);
+    box-shadow: 0 4px 12px var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.search-result-title { 
+    font-weight: 600; 
+    margin-bottom: 8px;
+    color: var(--navy);
+}
+
+.search-result-excerpt { 
+    color: var(--text-secondary); 
+    font-size: 0.92rem; 
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.search-result-meta { 
+    display: flex; 
+    gap: 12px; 
+    font-size: 0.82rem; 
+    color: var(--text-muted); 
+}
+
+/* ========================================
+   TOAST
+   ======================================== */
+
+.toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 24px;
+    box-shadow: 0 8px 24px var(--shadow-md);
+    z-index: 2000;
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width: 280px;
+}
+
+@keyframes slideInRight {
+    from { 
+        transform: translateX(400px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+.toast.success { 
+    border-left: 4px solid var(--sky); 
+    background: var(--sky-light);
+}
+
+[data-theme="dark"] .toast.success {
+    background: var(--bg-card);
+}
+
+.toast.error { 
+    border-left: 4px solid var(--pink); 
+    background: var(--pink-light);
+}
+
+[data-theme="dark"] .toast.error {
+    background: var(--bg-card);
+}
+
+.empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+}
+
+.empty-state-icon { 
+    font-size: 4.5rem; 
+    margin-bottom: 24px; 
+    opacity: 0.25;
+    filter: grayscale(20%);
+}
+
+.empty-state h3 { 
+    font-size: 1.6rem; 
+    margin-bottom: 12px; 
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.empty-state p { 
+    color: var(--text-secondary); 
+    margin-bottom: 24px; 
+    max-width: 420px;
+    line-height: 1.6;
+}
+
+.hidden { 
+    display: none !important; 
+}
+
+.save-indicator { 
+    font-size: 0.88rem; 
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.save-indicator.saving { 
+    color: var(--sky); 
+}
+
+.save-indicator.saved { 
+    color: var(--sky); 
+}
+
+/* ========================================
+   GOALS
+   ======================================== */
+
+.goals-section { 
+    padding: 16px; 
+}
+
+.goals-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.goals-section::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.goals-section::-webkit-scrollbar-thumb {
+    background: var(--sky);
+    border-radius: 4px;
+}
+
+.goals-section::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+.goal-item {
+    padding: 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 4px solid var(--sky);
+}
+
+.goal-item:nth-child(2) {
+    border-left-color: var(--pink);
+}
+
+.goal-item:nth-child(3) {
+    border-left-color: var(--navy);
+}
+
+.goal-item:hover {
+    box-shadow: 0 4px 16px var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.goal-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 14px; 
+}
+
+.goal-title { 
+    font-weight: 600; 
+    font-size: 1.02rem;
+    color: var(--navy);
+}
+
+.goal-progress-bar {
+    height: 10px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+}
+
+.goal-progress-fill { 
+    height: 100%;
+    background: var(--sky);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.goal-item:nth-child(2) .goal-progress-fill {
+    background: var(--pink);
+}
+
+.goal-item:nth-child(3) .goal-progress-fill {
+    background: var(--navy);
+}
+
+.goal-progress-text { 
+    font-size: 0.82rem; 
+    color: var(--text-muted); 
+}
+
+.mood-chart { 
+    margin-top: 18px; 
+}
+
+.mood-bar { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    margin-bottom: 14px; 
+}
+
+.mood-bar-label { 
+    width: 90px; 
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.mood-bar-fill {
+    flex: 1;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--bg-tertiary);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.mood-bar-value { 
+    height: 100%;
+    border-radius: 9px;
+    background: var(--sky);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mood-bar:nth-child(2) .mood-bar-value {
+    background: var(--pink);
+}
+
+.mood-bar:nth-child(3) .mood-bar-value {
+    background: var(--navy);
+}
+
+.mood-bar:nth-child(4) .mood-bar-value {
+    background: var(--coral);
+}
+
+/* ========================================
+   RESPONSIVE - Excelente en móvil
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .editor-container {
+        padding: 36px 28px;
+    }
+    
+    .editor {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        z-index: 100;
+        transform: translateX(-100%);
+        box-shadow: none;
+    }
+    
+    .sidebar.active { 
+        transform: translateX(0);
+        box-shadow: 4px 0 24px var(--shadow-lg);
+    }
+    
+    .menu-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+        background: var(--sky);
+        color: white;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.4rem;
+        box-shadow: 0 4px 16px var(--shadow-md);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .menu-toggle:active {
+        transform: scale(0.95);
+    }
+    
+    .editor-container { 
+        padding: 28px 20px; 
+    }
+    
+    .editor input[type="text"] { 
+        font-size: 2rem; 
+        margin-bottom: 20px;
+    }
+    
+    .editor textarea { 
+        font-size: 1.05rem;
+        min-height: 350px;
+    }
+    
+    .mood-selector { 
+        gap: 10px; 
+    }
+    
+    .mood-option {
+        padding: 12px 10px;
+        min-width: 70px;
+    }
+    
+    .mood-emoji { 
+        font-size: 2.2rem; 
+    }
+    
+    .editor-header {
+        padding: 16px 20px;
+    }
+    
+    .icon-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .login-box {
+        padding: 36px 28px;
+        margin: 20px;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .modal {
+        padding: 28px 24px;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .editor-container {
+        padding: 20px 16px;
+    }
+    
+    .editor input[type="text"] {
+        font-size: 1.7rem;
+    }
+    
+    .editor textarea {
+        font-size: 1rem;
+        min-height: 300px;
+    }
+    
+    .mood-selector {
+        gap: 8px;
+    }
+    
+    .mood-option {
+        padding: 10px 8px;
+        min-width: 65px;
+    }
+    
+    .mood-emoji {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        padding: 11px 22px;
+        font-size: 0.9rem;
+    }
+    
+    .calendar-grid {
+        gap: 4px;
+    }
+    
+    .sidebar {
+        width: 290px;
+    }
+}
+
+/* ========================================
+   SCROLLBAR PERSONALIZADO
+   ======================================== */
+
+::-webkit-scrollbar { 
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track { 
+    background: var(--bg-tertiary); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb { 
+    background: var(--sky);
+    border-radius: 10px;
+    border: 2px solid var(--bg-tertiary);
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover { 
+    background: var(--accent-hover);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sky) var(--bg-tertiary);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h1>📖 Mi Diario</h1>
+            <p id="loginSubtitle">Ingresa para continuar</p>
+            <div id="errorContainer"></div>
+            <form id="loginForm">
+                <div class="form-group" id="usernameGroup">
+                    <label for="username">Nombre de usuario</label>
+                    <input type="text" id="username" placeholder="Elige tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Tu contraseña secreta" required>
+                </div>
+                <button type="submit" class="btn btn-block" id="loginBtn">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="app-container hidden">
+        <button class="menu-toggle hidden" id="menuToggle">☰</button>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="profile-pic" id="profilePic">
+                    <span id="profileInitial">👤</span>
+                    <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
+                </div>
+                <div class="sidebar-header-info">
+                    <h2 id="displayUsername">Usuario</h2>
+                    <div class="user-name" id="currentStreak">🔥 0 días de racha</div>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <button class="nav-tab active" data-view="entries">📝 Entradas</button>
+                <button class="nav-tab" data-view="calendar">📅 Calendario</button>
+                <button class="nav-tab" data-view="stats">📊 Estadísticas</button>
+                <button class="nav-tab" data-view="search">🔍 Buscar</button>
+                <button class="nav-tab" data-view="goals">🎯 Metas</button>
+            </div>
+
+            <div class="sidebar-content" id="sidebarContent">
+                <!-- Entries -->
+                <div id="entriesView" class="sidebar-view">
+                    <div style="padding: 8px;"><button class="btn btn-block" id="newEntryBtn">+ Nueva entrada</button></div>
+                    <div id="entriesList"></div>
+                </div>
+
+                <!-- Calendar -->
+                <div id="calendarView" class="sidebar-view hidden">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h3 id="calendarMonth">Enero 2026</h3>
+                            <div class="calendar-nav">
+                                <button id="prevMonth">←</button>
+                                <button id="nextMonth">→</button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid"></div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div id="statsView" class="sidebar-view hidden">
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <h4>Total de entradas</h4>
+                            <div class="stat-value" id="totalEntries">0</div>
+                            <div class="stat-label">escritas hasta ahora</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Racha actual</h4>
+                            <div class="stat-value" id="currentStreakStat">0</div>
+                            <div class="stat-label">días consecutivos</div>
+                            <div class="streak-container" id="streakDays"></div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Estado de ánimo</h4>
+                            <div class="mood-chart" id="moodChart"></div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Etiquetas más usadas</h4>
+                            <div id="topTags"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div id="searchView" class="sidebar-view hidden">
+                    <div class="search-container">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Buscar...">
+                        <div class="search-results" id="searchResults"></div>
+                    </div>
+                </div>
+
+                <!-- Goals -->
+                <div id="goalsView" class="sidebar-view hidden">
+                    <div class="goals-section">
+                        <button class="btn btn-block" id="addGoalBtn" style="margin-bottom: 16px;">+ Agregar meta</button>
+                        <div id="goalsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px;">
+                <button class="icon-btn" id="settingsBtn" title="Ajustes" style="flex: 1;">⚙</button>
+                <button class="icon-btn" id="backupBtn" title="Backup" style="flex: 1;">💾</button>
+                <button class="icon-btn" id="logoutBtn" title="Cerrar sesión" style="flex: 1;">🚪</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="editor-header">
+                <div class="editor-title" id="currentEntryDate"></div>
+                <div class="editor-actions">
+                    <div class="save-indicator" id="saveIndicator"><span id="saveText">Guardado</span></div>
+                    <button class="icon-btn" id="privateToggleBtn" title="Entrada privada">🔒</button>
+                    <button class="icon-btn" id="deleteEntryBtn" title="Eliminar">🗑</button>
+                </div>
+            </div>
+            <div class="editor-container" id="editorContainer">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-state-icon">📝</div>
+                    <h3>Bienvenido a tu diario</h3>
+                    <p>Comienza escribiendo tu primera entrada. Registra tus pensamientos y emociones.</p>
+                    <button class="btn" id="createFirstEntry">Crear primera entrada</button>
+                </div>
+                <div class="editor hidden" id="editor">
+                    <div class="editor-mood-section">
+                        <h4>¿Cómo te sientes hoy?</h4>
+                        <div class="mood-selector" id="moodSelector">
+                            <div class="mood-option" data-mood="amazing"><div class="mood-emoji">😄</div><div class="mood-label">Increíble</div></div>
+                            <div class="mood-option" data-mood="good"><div class="mood-emoji">😊</div><div class="mood-label">Bien</div></div>
+                            <div class="mood-option" data-mood="okay"><div class="mood-emoji">😐</div><div class="mood-label">Normal</div></div>
+                            <div class="mood-option" data-mood="bad"><div class="mood-emoji">😔</div><div class="mood-label">Mal</div></div>
+                            <div class="mood-option" data-mood="terrible"><div class="mood-emoji">😢</div><div class="mood-label">Terrible</div></div>
+                        </div>
+                    </div>
+                    <input type="text" id="entryTitle" placeholder="Título de tu entrada...">
+                    <textarea id="entryContent" placeholder="Escribe tus pensamientos..."></textarea>
+                    <div class="editor-tags-section">
+                        <h4>🏷️ Etiquetas</h4>
+                        <div class="tags-input-container">
+                            <input type="text" id="tagInput" placeholder="Agregar etiqueta">
+                            <button class="btn" id="addTagBtn">Agregar</button>
+                        </div>
+                        <div class="selected-tags" id="selectedTags"></div>
+                    </div>
+                    <div class="editor-images-section">
+                        <h4>📷 Imágenes</h4>
+                        <div class="images-grid" id="imagesGrid">
+                            <label class="add-image-btn" for="imageInput">+</label>
+                            <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <h3>⚙ Ajustes</h3>
+            <div class="form-group">
+                <label for="newUsername">Nombre de usuario</label>
+                <input type="text" id="newUsername">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Nueva contraseña</label>
+                <input type="password" id="newPassword" placeholder="Dejar vacío para mantener">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar contraseña</label>
+                <input type="password" id="confirmPassword">
+            </div>
+            <div class="form-group">
+                <label>Tema</label>
+                <select id="themeSelect">
+                    <option value="dark">Oscuro</option>
+                    <option value="light">Claro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="reminderToggle"> Recordatorios diarios</label>
+            </div>
+            <div class="form-group">
+                <label for="reminderTime">Hora del recordatorio</label>
+                <input type="time" id="reminderTime" value="20:00">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSettingsBtn">Cancelar</button>
+                <button class="btn" id="saveSettingsBtn">Guardar</button>
+            </div>
+            <hr style="margin: 24px 0; border: none; border-top: 1px solid var(--border);">
+            <button class="btn btn-danger btn-block" id="deleteAllBtn">Eliminar todo</button>
+        </div>
+    </div>
+
+    <!-- Add Goal Modal -->
+    <div class="modal-overlay" id="addGoalModal">
+        <div class="modal">
+            <h3>🎯 Nueva meta</h3>
+            <div class="form-group">
+                <label for="goalTitle">Descripción</label>
+                <input type="text" id="goalTitle" placeholder="Ej: Escribir 7 días seguidos">
+            </div>
+            <div class="form-group">
+                <label for="goalType">Tipo</label>
+                <select id="goalType">
+                    <option value="streak">Racha de días</option>
+                    <option value="count">Número de entradas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="goalTarget">Objetivo</label>
+                <input type="number" id="goalTarget" placeholder="7" min="1">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelGoalBtn">Cancelar</button>
+                <button class="btn" id="saveGoalBtn">Crear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backup Modal -->
+    <div class="modal-overlay" id="backupModal">
+        <div class="modal">
+            <h3>💾 Backup</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">Exporta o importa tus entradas cifradas.</p>
+            <button class="btn btn-success btn-block" id="exportBackupBtn" style="margin-bottom: 12px;">📥 Exportar</button>
+            <label class="btn btn-secondary btn-block" for="importBackupInput" style="margin: 0; text-align: center;">📤 Importar</label>
+            <input type="file" id="importBackupInput" accept=".json" style="display: none;">
+            <div class="modal-actions"><button class="btn btn-secondary btn-block" id="closeBackupBtn">Cerrar</button></div>
+        </div>
+    </div>
+    <script>
+// ENCRYPTION SYSTEM
+class DiaryEncryption {
+    constructor() { this.algorithm = 'AES-GCM'; this.keyLength = 256; }
+    async deriveKey(password, salt) {
+        const encoder = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']);
+        return await crypto.subtle.deriveKey(
+            { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+            keyMaterial,
+            { name: this.algorithm, length: this.keyLength },
+            false, ['encrypt', 'decrypt']
+        );
+    }
+    async encrypt(text, password) {
+        const encoder = new TextEncoder();
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const key = await this.deriveKey(password, salt);
+        const encrypted = await crypto.subtle.encrypt({ name: this.algorithm, iv: iv }, key, encoder.encode(text));
+        const combined = new Uint8Array(salt.length + iv.length + encrypted.byteLength);
+        combined.set(salt, 0);
+        combined.set(iv, salt.length);
+        combined.set(new Uint8Array(encrypted), salt.length + iv.length);
+        return this.arrayBufferToBase64(combined);
+    }
+    async decrypt(encryptedBase64, password) {
+        try {
+            const combined = this.base64ToArrayBuffer(encryptedBase64);
+            const salt = combined.slice(0, 16);
+            const iv = combined.slice(16, 28);
+            const encrypted = combined.slice(28);
+            const key = await this.deriveKey(password, salt);
+            const decrypted = await crypto.subtle.decrypt({ name: this.algorithm, iv: iv }, key, encrypted);
+            const decoder = new TextDecoder();
+            return decoder.decode(decrypted);
+        } catch (e) { throw new Error('Contraseña incorrecta'); }
+    }
+    arrayBufferToBase64(buffer) {
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+        return btoa(binary);
+    }
+    base64ToArrayBuffer(base64) {
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return bytes;
+    }
+}
+
+// STORAGE SYSTEM
+class DiaryStorage {
+    constructor(encryption) { this.encryption = encryption; this.currentPassword = null; }
+    setPassword(password) { this.currentPassword = password; }
+    async saveEntry(entry) {
+        const encryptedTitle = await this.encryption.encrypt(entry.title, this.currentPassword);
+        const encryptedContent = await this.encryption.encrypt(entry.content, this.currentPassword);
+        const encryptedImages = [];
+        for (const img of entry.images || []) {
+            encryptedImages.push(await this.encryption.encrypt(img, this.currentPassword));
+        }
+        const encryptedEntry = {
+            id: entry.id, title: encryptedTitle, content: encryptedContent,
+            date: entry.date, modified: entry.modified, mood: entry.mood,
+            tags: entry.tags || [], images: encryptedImages, private: entry.private || false
+        };
+        const entries = this.getAllEntries();
+        const index = entries.findIndex(e => e.id === entry.id);
+        if (index >= 0) entries[index] = encryptedEntry;
+        else entries.push(encryptedEntry);
+        localStorage.setItem('diary_entries', JSON.stringify(entries));
+    }
+    async loadEntry(id) {
+        const entries = this.getAllEntries();
+        const encrypted = entries.find(e => e.id === id);
+        if (!encrypted) return null;
+        const title = await this.encryption.decrypt(encrypted.title, this.currentPassword);
+        const content = await this.encryption.decrypt(encrypted.content, this.currentPassword);
+        const images = [];
+        for (const encImg of encrypted.images || []) {
+            try { images.push(await this.encryption.decrypt(encImg, this.currentPassword)); }
+            catch (e) { console.error('Error decrypting image:', e); }
+        }
+        return {
+            id: encrypted.id, title, content, date: encrypted.date, modified: encrypted.modified,
+            mood: encrypted.mood, tags: encrypted.tags || [], images, private: encrypted.private || false
+        };
+    }
+    getAllEntries() {
+        const entries = localStorage.getItem('diary_entries');
+        return entries ? JSON.parse(entries) : [];
+    }
+    deleteEntry(id) {
+        const entries = this.getAllEntries();
+        const filtered = entries.filter(e => e.id !== id);
+        localStorage.setItem('diary_entries', JSON.stringify(filtered));
+    }
+    deleteAllEntries() { localStorage.removeItem('diary_entries'); }
+    saveUserConfig(username, password, theme, profilePic, reminders) {
+        const config = {
+            username, passwordHash: this.hashPassword(password), theme,
+            profilePic: profilePic || '', reminders: reminders || { enabled: false, time: '20:00' }
+        };
+        localStorage.setItem('diary_config', JSON.stringify(config));
+    }
+    getUserConfig() {
+        const config = localStorage.getItem('diary_config');
+        return config ? JSON.parse(config) : null;
+    }
+    hashPassword(password) {
+        let hash = 0;
+        for (let i = 0; i < password.length; i++) {
+            const char = password.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash.toString();
+    }
+    verifyPassword(password) {
+        const config = this.getUserConfig();
+        if (!config) return false;
+        return this.hashPassword(password) === config.passwordHash;
+    }
+    saveGoals(goals) { localStorage.setItem('diary_goals', JSON.stringify(goals)); }
+    getGoals() {
+        const goals = localStorage.getItem('diary_goals');
+        return goals ? JSON.parse(goals) : [];
+    }
+}
+
+// MAIN APPLICATION
+class DiaryApp {
+    constructor() {
+        this.encryption = new DiaryEncryption();
+        this.storage = new DiaryStorage(this.encryption);
+        this.currentEntry = null;
+        this.saveTimeout = null;
+        this.currentView = 'entries';
+        this.currentCalendarDate = new Date();
+        this.init();
+    }
+    init() {
+        this.setupEventListeners();
+        this.checkLogin();
+        this.setupResponsive();
+        this.checkReminders();
+    }
+    setupEventListeners() {
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleLogin();
+        });
+        // Navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => this.switchView(tab.dataset.view));
+        });
+        // Entry management
+        document.getElementById('newEntryBtn').addEventListener('click', () => this.createNewEntry());
+        document.getElementById('createFirstEntry').addEventListener('click', () => this.createNewEntry());
+        document.getElementById('deleteEntryBtn').addEventListener('click', () => this.deleteCurrentEntry());
+        // Auto-save
+        document.getElementById('entryTitle').addEventListener('input', () => this.autoSave());
+        document.getElementById('entryContent').addEventListener('input', () => this.autoSave());
+        // Mood selector
+        document.querySelectorAll('.mood-option').forEach(option => {
+            option.addEventListener('click', () => this.selectMood(option.dataset.mood));
+        });
+        // Tags
+        document.getElementById('addTagBtn').addEventListener('click', () => this.addTag());
+        document.getElementById('tagInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); this.addTag(); }
+        });
+        // Images
+        document.getElementById('imageInput').addEventListener('change', (e) => this.handleImageUpload(e));
+        // Private toggle
+        document.getElementById('privateToggleBtn').addEventListener('click', () => this.togglePrivate());
+        // Profile pic
+        document.getElementById('profilePic').addEventListener('click', () => {
+            document.getElementById('profilePicInput').click();
+        });
+        document.getElementById('profilePicInput').addEventListener('change', (e) => this.handleProfilePicUpload(e));
+        // Settings
+        document.getElementById('settingsBtn').addEventListener('click', () => this.openSettings());
+        document.getElementById('cancelSettingsBtn').addEventListener('click', () => this.closeSettings());
+        document.getElementById('saveSettingsBtn').addEventListener('click', () => this.saveSettings());
+        document.getElementById('deleteAllBtn').addEventListener('click', () => this.deleteAllEntries());
+        document.getElementById('themeSelect').addEventListener('change', (e) => this.changeTheme(e.target.value));
+        // Backup
+        document.getElementById('backupBtn').addEventListener('click', () => this.openBackup());
+        document.getElementById('exportBackupBtn').addEventListener('click', () => this.exportBackup());
+        document.getElementById('importBackupInput').addEventListener('change', (e) => this.importBackup(e));
+        document.getElementById('closeBackupBtn').addEventListener('click', () => this.closeBackup());
+        // Goals
+        document.getElementById('addGoalBtn').addEventListener('click', () => this.openAddGoal());
+        document.getElementById('cancelGoalBtn').addEventListener('click', () => this.closeAddGoal());
+        document.getElementById('saveGoalBtn').addEventListener('click', () => this.saveGoal());
+        // Calendar
+        document.getElementById('prevMonth').addEventListener('click', () => this.changeMonth(-1));
+        document.getElementById('nextMonth').addEventListener('click', () => this.changeMonth(1));
+        // Search
+        document.getElementById('searchInput').addEventListener('input', (e) => this.performSearch(e.target.value));
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => this.logout());
+        // Close modals
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        });
+    }
+    setupResponsive() {
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        if (window.innerWidth <= 768) menuToggle.classList.remove('hidden');
+        menuToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) menuToggle.classList.remove('hidden');
+            else { menuToggle.classList.add('hidden'); sidebar.classList.remove('active'); }
+        });
+    }
+        checkLogin() {
+        const config = this.storage.getUserConfig();
+        const usernameGroup = document.getElementById('usernameGroup');
+        const usernameInput = document.getElementById('username');
+        
+        if (!config) {
+            document.getElementById('loginSubtitle').textContent = 'Crea tu cuenta para empezar';
+            document.getElementById('loginBtn').textContent = 'Crear cuenta';
+            usernameGroup.classList.remove('hidden');
+            usernameInput.required = true;
+        } else {
+            document.getElementById('loginSubtitle').textContent = `Bienvenido, ${config.username}`;
+            document.getElementById('loginBtn').textContent = 'Entrar';
+            usernameGroup.classList.add('hidden');
+            // CRITICAL FIX: Remover required cuando está oculto
+            usernameInput.required = false;
+            usernameInput.disabled = true;
+        }
+    }
+    
+    async handleLogin() {
+        const config = this.storage.getUserConfig();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        if (!config) {
+            if (!username || !password) { this.showError('Completa todos los campos'); return; }
+            if (password.length < 6) { this.showError('La contraseña debe tener al menos 6 caracteres'); return; }
+            this.storage.saveUserConfig(username, password, 'dark', '', { enabled: false, time: '20:00' });
+            this.storage.setPassword(password);
+            this.enterApp(username);
+        } else {
+            if (this.storage.verifyPassword(password)) {
+                this.storage.setPassword(password);
+                this.enterApp(config.username);
+            } else {
+                this.showError('Contraseña incorrecta');
+            }
+        }
+    }
+    showError(message) {
+        const errorContainer = document.getElementById('errorContainer');
+        errorContainer.innerHTML = `<div class="error-message">${message}</div>`;
+        setTimeout(() => errorContainer.innerHTML = '', 3000);
+    }
+    enterApp(username) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        document.getElementById('displayUsername').textContent = username;
+        const config = this.storage.getUserConfig();
+        this.changeTheme(config.theme);
+        if (config.profilePic) {
+            document.getElementById('profileInitial').innerHTML = `<img src="${config.profilePic}" alt="Profile">`;
+        }
+        this.loadEntries();
+        this.updateStreak();
+        this.updateStats();
+        this.renderCalendar();
+        this.loadGoals();
+    }
+    switchView(view) {
+        this.currentView = view;
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.view === view);
+        });
+        document.querySelectorAll('.sidebar-view').forEach(v => v.classList.add('hidden'));
+        document.getElementById(`${view}View`).classList.remove('hidden');
+        if (view === 'calendar') this.renderCalendar();
+        else if (view === 'stats') this.updateStats();
+        else if (view === 'goals') this.loadGoals();
+    }
+    async loadEntries() {
+        const entries = this.storage.getAllEntries();
+        const list = document.getElementById('entriesList');
+        list.innerHTML = '';
+        if (entries.length === 0) {
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('editor').classList.add('hidden');
+            return;
+        }
+        document.getElementById('emptyState').classList.add('hidden');
+        entries.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+        for (const encryptedEntry of entries) {
+            try {
+                const title = await this.encryption.decrypt(encryptedEntry.title, this.storage.currentPassword);
+                const date = new Date(encryptedEntry.date).toLocaleDateString('es-ES', {
+                    day: 'numeric', month: 'short', year: 'numeric'
+                });
+                const moodEmoji = this.getMoodEmoji(encryptedEntry.mood);
+                const item = document.createElement('div');
+                item.className = 'entry-item';
+                item.dataset.id = encryptedEntry.id;
+                let tagsHTML = '';
+                if (encryptedEntry.tags && encryptedEntry.tags.length > 0) {
+                    tagsHTML = '<div class="entry-tags">' +
+                        encryptedEntry.tags.slice(0, 3).map(tag => `<span class="tag-pill">${tag}</span>`).join('') +
+                        '</div>';
+                }
+                item.innerHTML = `
+                    <div class="entry-mood">${moodEmoji}</div>
+                    <div class="entry-title">${title || 'Sin título'}</div>
+                    <div class="entry-date">${date}</div>
+                    ${tagsHTML}
+                `;
+                item.addEventListener('click', () => this.loadEntry(encryptedEntry.id));
+                list.appendChild(item);
+            } catch (e) { console.error('Error al cargar entrada:', e); }
+        }
+        if (entries.length > 0 && !this.currentEntry) this.loadEntry(entries[0].id);
+    }
+    getMoodEmoji(mood) {
+        const moods = { 'amazing': '😄', 'good': '😊', 'okay': '😐', 'bad': '😔', 'terrible': '😢' };
+        return moods[mood] || '😐';
+    }
+    async loadEntry(id) {
+        if (this.currentEntry) await this.saveCurrentEntry();
+        try {
+            const entry = await this.storage.loadEntry(id);
+            if (!entry) return;
+            this.currentEntry = entry;
+            document.getElementById('editor').classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('entryTitle').value = entry.title;
+            document.getElementById('entryContent').value = entry.content;
+            const date = new Date(entry.date).toLocaleDateString('es-ES', {
+                weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+            });
+            document.getElementById('currentEntryDate').textContent = date;
+            document.querySelectorAll('.mood-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.mood === entry.mood);
+            });
+            this.renderTags(entry.tags || []);
+            this.renderImages(entry.images || []);
+            const privateBtn = document.getElementById('privateToggleBtn');
+            privateBtn.textContent = entry.private ? '🔓' : '🔒';
+            privateBtn.title = entry.private ? 'Privada' : 'Pública';
+            document.querySelectorAll('.entry-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.id === id) item.classList.add('active');
+            });
+            if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('active');
+        } catch (e) {
+            this.showToast('Error al cargar la entrada', 'error');
+            console.error(e);
+        }
+    }
+    createNewEntry() {
+        const id = Date.now().toString();
+        const now = new Date();
+        this.currentEntry = {
+            id, title: '', content: '', date: now.toISOString(), modified: now.toISOString(),
+            mood: 'okay', tags: [], images: [], private: false
+        };
+        document.getElementById('editor').classList.remove('hidden');
+        document.getElementById('emptyState').classList.add('hidden');
+        document.getElementById('entryTitle').value = '';
+        document.getElementById('entryContent').value = '';
+        document.querySelectorAll('.mood-option').forEach(opt => {
+            opt.classList.toggle('selected', opt.dataset.mood === 'okay');
+        });
+        this.renderTags([]);
+        this.renderImages([]);
+        const privateBtn = document.getElementById('privateToggleBtn');
+        privateBtn.textContent = '🔒';
+        privateBtn.title = 'Pública';
+        const date = now.toLocaleDateString('es-ES', {
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        });
+        document.getElementById('currentEntryDate').textContent = date;
+        document.getElementById('entryTitle').focus();
+        this.saveCurrentEntry().then(() => this.loadEntries());
+    }
+    selectMood(mood) {
+        if (!this.currentEntry) return;
+        this.currentEntry.mood = mood;
+        document.querySelectorAll('.mood-option').forEach(opt => {
+            opt.classList.toggle('selected', opt.dataset.mood === mood);
+        });
+        this.autoSave();
+    }
+    addTag() {
+        const input = document.getElementById('tagInput');
+        const tag = input.value.trim().toLowerCase();
+        if (!tag || !this.currentEntry) return;
+        if (this.currentEntry.tags.includes(tag)) {
+            this.showToast('Esta etiqueta ya existe', 'error');
+            return;
+        }
+        this.currentEntry.tags.push(tag);
+        this.renderTags(this.currentEntry.tags);
+        input.value = '';
+        this.autoSave();
+    }
+    renderTags(tags) {
+        const container = document.getElementById('selectedTags');
+        container.innerHTML = '';
+        tags.forEach(tag => {
+            const tagEl = document.createElement('div');
+            tagEl.className = 'selected-tag';
+            tagEl.innerHTML = `${tag}<button onclick="app.removeTag('${tag}')">×</button>`;
+            container.appendChild(tagEl);
+        });
+    }
+    removeTag(tag) {
+        if (!this.currentEntry) return;
+        this.currentEntry.tags = this.currentEntry.tags.filter(t => t !== tag);
+        this.renderTags(this.currentEntry.tags);
+        this.autoSave();
+    }
+    async handleImageUpload(e) {
+        const files = Array.from(e.target.files);
+        if (!files.length || !this.currentEntry) return;
+        for (const file of files) {
+            if (file.size > 5 * 1024 * 1024) {
+                this.showToast('Imágenes deben ser < 5MB', 'error');
+                continue;
+            }
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const dataUrl = event.target.result;
+                this.currentEntry.images.push(dataUrl);
+                this.renderImages(this.currentEntry.images);
+                this.autoSave();
+            };
+            reader.readAsDataURL(file);
+        }
+        e.target.value = '';
+    }
+    renderImages(images) {
+        const grid = document.getElementById('imagesGrid');
+        grid.innerHTML = '<label class="add-image-btn" for="imageInput">+</label><input type="file" id="imageInput" accept="image/*" multiple style="display: none;">';
+        document.getElementById('imageInput').addEventListener('change', (e) => this.handleImageUpload(e));
+        images.forEach((img, index) => {
+            const item = document.createElement('div');
+            item.className = 'image-item';
+            item.innerHTML = `
+                <img src="${img}" alt="Entry image">
+                <button class="image-item-delete" onclick="app.removeImage(${index})">×</button>
+            `;
+            grid.appendChild(item);
+        });
+    }
+    removeImage(index) {
+        if (!this.currentEntry) return;
+        this.currentEntry.images.splice(index, 1);
+        this.renderImages(this.currentEntry.images);
+        this.autoSave();
+    }
+    togglePrivate() {
+        if (!this.currentEntry) return;
+        this.currentEntry.private = !this.currentEntry.private;
+        const btn = document.getElementById('privateToggleBtn');
+        btn.textContent = this.currentEntry.private ? '🔓' : '🔒';
+        btn.title = this.currentEntry.private ? 'Privada' : 'Pública';
+        this.autoSave();
+    }
+    async handleProfilePicUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) {
+            this.showToast('Imagen debe ser < 2MB', 'error');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const dataUrl = event.target.result;
+            document.getElementById('profileInitial').innerHTML = `<img src="${dataUrl}" alt="Profile">`;
+            const config = this.storage.getUserConfig();
+            this.storage.saveUserConfig(config.username, this.storage.currentPassword, config.theme, dataUrl, config.reminders);
+            this.showToast('Foto actualizada', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+    autoSave() {
+        clearTimeout(this.saveTimeout);
+        const indicator = document.getElementById('saveIndicator');
+        const text = document.getElementById('saveText');
+        indicator.className = 'save-indicator saving';
+        text.textContent = 'Guardando...';
+        this.saveTimeout = setTimeout(async () => {
+            await this.saveCurrentEntry();
+            indicator.className = 'save-indicator saved';
+            text.textContent = 'Guardado';
+            setTimeout(() => {
+                indicator.className = 'save-indicator';
+                text.textContent = 'Guardado';
+            }, 2000);
+        }, 1000);
+    }
+    async saveCurrentEntry() {
+        if (!this.currentEntry) return;
+        this.currentEntry.title = document.getElementById('entryTitle').value;
+        this.currentEntry.content = document.getElementById('entryContent').value;
+        this.currentEntry.modified = new Date().toISOString();
+        try {
+            await this.storage.saveEntry(this.currentEntry);
+            this.updateStreak();
+        } catch (e) { console.error('Error al guardar:', e); }
+    }
+    async deleteCurrentEntry() {
+        if (!this.currentEntry) return;
+        if (!confirm('¿Eliminar esta entrada? No se puede deshacer.')) return;
+        this.storage.deleteEntry(this.currentEntry.id);
+        this.currentEntry = null;
+        document.getElementById('editor').classList.add('hidden');
+        await this.loadEntries();
+        this.showToast('Entrada eliminada', 'success');
+    }
+    async deleteAllEntries() {
+        if (!confirm('⚠️ ¿Eliminar TODAS las entradas?')) return;
+        if (!confirm('Última oportunidad. ¿Seguro?')) return;
+        this.storage.deleteAllEntries();
+        this.currentEntry = null;
+        this.closeSettings();
+        await this.loadEntries();
+        this.showToast('Todo eliminado', 'success');
+    }
+    renderCalendar() {
+        const year = this.currentCalendarDate.getFullYear();
+        const month = this.currentCalendarDate.getMonth();
+        document.getElementById('calendarMonth').textContent = new Date(year, month).toLocaleDateString('es-ES', {
+            month: 'long', year: 'numeric'
+        });
+        const grid = document.getElementById('calendarGrid');
+        grid.innerHTML = '';
+        const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        dayNames.forEach(name => {
+            const dayName = document.createElement('div');
+            dayName.className = 'calendar-day-name';
+            dayName.textContent = name;
+            grid.appendChild(dayName);
+        });
+        const entries = this.storage.getAllEntries();
+        const entriesByDate = {};
+        entries.forEach(entry => {
+            const date = new Date(entry.date).toDateString();
+            if (!entriesByDate[date]) entriesByDate[date] = [];
+            entriesByDate[date].push(entry);
+        });
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const today = new Date().toDateString();
+        for (let i = 0; i < firstDay; i++) {
+            const day = document.createElement('div');
+            day.className = 'calendar-day other-month';
+            grid.appendChild(day);
+        }
+        for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(year, month, i);
+            const dateStr = date.toDateString();
+            const hasEntry = entriesByDate[dateStr];
+            const day = document.createElement('div');
+            day.className = 'calendar-day';
+            day.textContent = i;
+            if (hasEntry) {
+                day.classList.add('has-entry');
+                if (hasEntry[0].mood) {
+                    const moodEmoji = document.createElement('div');
+                    moodEmoji.className = 'calendar-day-mood';
+                    moodEmoji.textContent = this.getMoodEmoji(hasEntry[0].mood);
+                    day.appendChild(moodEmoji);
+                }
+                day.addEventListener('click', () => {
+                    this.loadEntry(hasEntry[0].id);
+                    this.switchView('entries');
+                });
+            }
+            if (dateStr === today) day.classList.add('today');
+            grid.appendChild(day);
+        }
+    }
+    changeMonth(delta) {
+        this.currentCalendarDate.setMonth(this.currentCalendarDate.getMonth() + delta);
+        this.renderCalendar();
+    }
+    async performSearch(query) {
+        const resultsDiv = document.getElementById('searchResults');
+        if (!query.trim()) {
+            resultsDiv.innerHTML = '<p style="color: var(--text-muted); padding: 16px;">Escribe para buscar...</p>';
+            return;
+        }
+        const entries = this.storage.getAllEntries();
+        const results = [];
+        for (const encEntry of entries) {
+            try {
+                const title = await this.encryption.decrypt(encEntry.title, this.storage.currentPassword);
+                const content = await this.encryption.decrypt(encEntry.content, this.storage.currentPassword);
+                const lowerQuery = query.toLowerCase();
+                const titleMatch = title.toLowerCase().includes(lowerQuery);
+                const contentMatch = content.toLowerCase().includes(lowerQuery);
+                const tagsMatch = encEntry.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
+                if (titleMatch || contentMatch || tagsMatch) {
+                    let excerpt = content.substring(0, 150);
+                    if (content.length > 150) excerpt += '...';
+                    results.push({
+                        id: encEntry.id, title: title || 'Sin título', excerpt,
+                        date: new Date(encEntry.date).toLocaleDateString('es-ES'),
+                        mood: this.getMoodEmoji(encEntry.mood), tags: encEntry.tags
+                    });
+                }
+            } catch (e) { console.error('Error searching:', e); }
+        }
+        if (results.length === 0) {
+            resultsDiv.innerHTML = '<p style="color: var(--text-muted); padding: 16px;">Sin resultados</p>';
+            return;
+        }
+        resultsDiv.innerHTML = '';
+        results.forEach(result => {
+            const item = document.createElement('div');
+            item.className = 'search-result-item';
+            item.innerHTML = `
+                <div class="search-result-title">${result.mood} ${result.title}</div>
+                <div class="search-result-excerpt">${result.excerpt}</div>
+                <div class="search-result-meta">
+                    <span>${result.date}</span>
+                    ${result.tags.length > 0 ? `<span>🏷️ ${result.tags.join(', ')}</span>` : ''}
+                </div>
+            `;
+            item.addEventListener('click', () => {
+                this.loadEntry(result.id);
+                this.switchView('entries');
+            });
+            resultsDiv.appendChild(item);
+        });
+    }
+    updateStreak() {
+        const entries = this.storage.getAllEntries();
+        if (entries.length === 0) {
+            document.getElementById('currentStreak').textContent = '🔥 0 días de racha';
+            return;
+        }
+        const dates = entries.map(e => new Date(e.date).toDateString()).sort((a, b) => new Date(b) - new Date(a));
+        const uniqueDates = [...new Set(dates)];
+        let streak = 0;
+        const today = new Date().toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        if (uniqueDates[0] === today || uniqueDates[0] === yesterday) {
+            streak = 1;
+            for (let i = 1; i < uniqueDates.length; i++) {
+                const prevDate = new Date(uniqueDates[i - 1]);
+                const currDate = new Date(uniqueDates[i]);
+                const diffDays = Math.floor((prevDate - currDate) / 86400000);
+                if (diffDays === 1) streak++;
+                else break;
+            }
+        }
+        document.getElementById('currentStreak').textContent = `🔥 ${streak} día${streak !== 1 ? 's' : ''} de racha`;
+    }
+    async updateStats() {
+        const entries = this.storage.getAllEntries();
+        document.getElementById('totalEntries').textContent = entries.length;
+        const dates = entries.map(e => new Date(e.date).toDateString()).sort((a, b) => new Date(b) - new Date(a));
+        const uniqueDates = [...new Set(dates)];
+        let streak = 0;
+        const today = new Date().toDateString();
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        if (uniqueDates.length > 0 && (uniqueDates[0] === today || uniqueDates[0] === yesterday)) {
+            streak = 1;
+            for (let i = 1; i < uniqueDates.length; i++) {
+                const prevDate = new Date(uniqueDates[i - 1]);
+                const currDate = new Date(uniqueDates[i]);
+                const diffDays = Math.floor((prevDate - currDate) / 86400000);
+                if (diffDays === 1) streak++;
+                else break;
+            }
+        }
+        document.getElementById('currentStreakStat').textContent = streak;
+        const streakDays = document.getElementById('streakDays');
+        streakDays.innerHTML = '';
+        for (let i = 0; i < 14; i++) {
+            const day = document.createElement('div');
+            day.className = 'streak-day';
+            if (i < Math.min(streak, 14)) day.classList.add('active');
+            streakDays.appendChild(day);
+        }
+        const moodCounts = { amazing: 0, good: 0, okay: 0, bad: 0, terrible: 0 };
+        entries.forEach(entry => { if (entry.mood) moodCounts[entry.mood]++; });
+        const total = entries.length || 1;
+        const moodChart = document.getElementById('moodChart');
+        moodChart.innerHTML = '';
+        const moodLabels = { amazing: 'Increíble', good: 'Bien', okay: 'Normal', bad: 'Mal', terrible: 'Terrible' };
+        const moodColors = {
+            amazing: '#22c55e', good: '#4ade80', okay: '#fbbf24', bad: '#fb923c', terrible: '#ef4444'
+        };
+        Object.keys(moodCounts).forEach(mood => {
+            const percentage = (moodCounts[mood] / total) * 100;
+            const bar = document.createElement('div');
+            bar.className = 'mood-bar';
+            bar.innerHTML = `
+                <div class="mood-bar-label">${this.getMoodEmoji(mood)} ${moodLabels[mood]}</div>
+                <div class="mood-bar-fill">
+                    <div class="mood-bar-value" style="width: ${percentage}%; background: ${moodColors[mood]};"></div>
+                </div>
+            `;
+            moodChart.appendChild(bar);
+        });
+        const tagCounts = {};
+        entries.forEach(entry => {
+            (entry.tags || []).forEach(tag => {
+                tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+            });
+        });
+        const topTagsDiv = document.getElementById('topTags');
+        const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        if (sortedTags.length === 0) {
+            topTagsDiv.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Sin etiquetas</p>';
+        } else {
+            topTagsDiv.innerHTML = sortedTags.map(([tag, count]) => `
+                <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                    <span>🏷️ ${tag}</span>
+                    <span style="color: var(--text-muted);">${count}</span>
+                </div>
+            `).join('');
+        }
+    }
+    openSettings() {
+        const config = this.storage.getUserConfig();
+        document.getElementById('newUsername').value = config.username;
+        document.getElementById('themeSelect').value = config.theme;
+        document.getElementById('reminderToggle').checked = config.reminders.enabled;
+        document.getElementById('reminderTime').value = config.reminders.time;
+        document.getElementById('settingsModal').classList.add('active');
+    }
+    closeSettings() {
+        document.getElementById('settingsModal').classList.remove('active');
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+    }
+    async saveSettings() {
+        const config = this.storage.getUserConfig();
+        const newUsername = document.getElementById('newUsername').value.trim();
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const theme = document.getElementById('themeSelect').value;
+        const reminderEnabled = document.getElementById('reminderToggle').checked;
+        const reminderTime = document.getElementById('reminderTime').value;
+        if (!newUsername) { this.showToast('Nombre requerido', 'error'); return; }
+        let passwordToUse = this.storage.currentPassword;
+        if (newPassword) {
+            if (newPassword.length < 6) { this.showToast('Contraseña debe tener 6+ caracteres', 'error'); return; }
+            if (newPassword !== confirmPassword) { this.showToast('Las contraseñas no coinciden', 'error'); return; }
+            if (!confirm('Cambiar contraseña re-cifrará todas las entradas. ¿Continuar?')) return;
+            await this.reEncryptAllEntries(newPassword);
+            passwordToUse = newPassword;
+            this.storage.setPassword(newPassword);
+        }
+        this.storage.saveUserConfig(newUsername, passwordToUse, theme, config.profilePic, {
+            enabled: reminderEnabled, time: reminderTime
+        });
+        document.getElementById('displayUsername').textContent = newUsername;
+        this.closeSettings();
+        this.showToast('Configuración guardada', 'success');
+    }
+    async reEncryptAllEntries(newPassword) {
+        const entries = this.storage.getAllEntries();
+        const oldPassword = this.storage.currentPassword;
+        for (const encryptedEntry of entries) {
+            const title = await this.encryption.decrypt(encryptedEntry.title, oldPassword);
+            const content = await this.encryption.decrypt(encryptedEntry.content, oldPassword);
+            const images = [];
+            for (const encImg of encryptedEntry.images || []) {
+                try { images.push(await this.encryption.decrypt(encImg, oldPassword)); }
+                catch (e) { console.error('Error re-encrypting image:', e); }
+            }
+            encryptedEntry.title = await this.encryption.encrypt(title, newPassword);
+            encryptedEntry.content = await this.encryption.encrypt(content, newPassword);
+            encryptedEntry.images = [];
+            for (const img of images) {
+                encryptedEntry.images.push(await this.encryption.encrypt(img, newPassword));
+            }
+        }
+        localStorage.setItem('diary_entries', JSON.stringify(entries));
+    }
+    changeTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+    exportBackup() {
+        const data = {
+            entries: this.storage.getAllEntries(),
+            goals: this.storage.getGoals(),
+            version: '1.0',
+            timestamp: new Date().toISOString()
+        };
+        const json = JSON.stringify(data, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `diario-backup-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        this.showToast('Backup exportado', 'success');
+    }
+    async importBackup(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            try {
+                const data = JSON.parse(event.target.result);
+                if (!data.entries || !Array.isArray(data.entries)) {
+                    this.showToast('Archivo inválido', 'error');
+                    return;
+                }
+                if (!confirm(`¿Importar ${data.entries.length} entradas? Esto NO eliminará las actuales.`)) return;
+                const currentEntries = this.storage.getAllEntries();
+                const allEntries = [...currentEntries, ...data.entries];
+                localStorage.setItem('diary_entries', JSON.stringify(allEntries));
+                if (data.goals) {
+                    const currentGoals = this.storage.getGoals();
+                    const allGoals = [...currentGoals, ...data.goals];
+                    this.storage.saveGoals(allGoals);
+                }
+                await this.loadEntries();
+                this.closeBackup();
+                this.showToast('Backup importado', 'success');
+            } catch (err) {
+                this.showToast('Error al importar', 'error');
+                console.error(err);
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    }
+    openBackup() {
+        document.getElementById('backupModal').classList.add('active');
+    }
+    closeBackup() {
+        document.getElementById('backupModal').classList.remove('active');
+    }
+    openAddGoal() {
+        document.getElementById('addGoalModal').classList.add('active');
+    }
+    closeAddGoal() {
+        document.getElementById('addGoalModal').classList.remove('active');
+        document.getElementById('goalTitle').value = '';
+        document.getElementById('goalTarget').value = '';
+    }
+    saveGoal() {
+        const title = document.getElementById('goalTitle').value.trim();
+        const type = document.getElementById('goalType').value;
+        const target = parseInt(document.getElementById('goalTarget').value);
+        if (!title || !target || target < 1) {
+            this.showToast('Completa todos los campos', 'error');
+            return;
+        }
+        const goals = this.storage.getGoals();
+        goals.push({
+            id: Date.now().toString(),
+            title, type, target,
+            current: 0, completed: false, createdAt: new Date().toISOString()
+        });
+        this.storage.saveGoals(goals);
+        this.closeAddGoal();
+        this.loadGoals();
+        this.showToast('Meta creada', 'success');
+    }
+    loadGoals() {
+        const goals = this.storage.getGoals();
+        const entries = this.storage.getAllEntries();
+        const goalsList = document.getElementById('goalsList');
+        if (goals.length === 0) {
+            goalsList.innerHTML = '<p style="color: var(--text-muted); padding: 16px;">Sin metas aún</p>';
+            return;
+        }
+        goals.forEach(goal => {
+            if (goal.type === 'streak') {
+                const dates = entries.map(e => new Date(e.date).toDateString()).sort((a, b) => new Date(b) - new Date(a));
+                const uniqueDates = [...new Set(dates)];
+                let streak = 0;
+                const today = new Date().toDateString();
+                const yesterday = new Date(Date.now() - 86400000).toDateString();
+                if (uniqueDates.length > 0 && (uniqueDates[0] === today || uniqueDates[0] === yesterday)) {
+                    streak = 1;
+                    for (let i = 1; i < uniqueDates.length; i++) {
+                        const prevDate = new Date(uniqueDates[i - 1]);
+                        const currDate = new Date(uniqueDates[i]);
+                        const diffDays = Math.floor((prevDate - currDate) / 86400000);
+                        if (diffDays === 1) streak++;
+                        else break;
+                    }
+                }
+                goal.current = streak;
+            } else if (goal.type === 'count') {
+                goal.current = entries.length;
+            }
+            if (goal.current >= goal.target) goal.completed = true;
+        });
+        this.storage.saveGoals(goals);
+        goalsList.innerHTML = '';
+        goals.forEach(goal => {
+            const percentage = Math.min((goal.current / goal.target) * 100, 100);
+            const item = document.createElement('div');
+            item.className = 'goal-item';
+            item.innerHTML = `
+                <div class="goal-header">
+                    <div class="goal-title">${goal.completed ? '✅' : '🎯'} ${goal.title}</div>
+                    <button class="icon-btn" onclick="app.deleteGoal('${goal.id}')" style="width: 28px; height: 28px;">×</button>
+                </div>
+                <div class="goal-progress-bar">
+                    <div class="goal-progress-fill" style="width: ${percentage}%;"></div>
+                </div>
+                <div class="goal-progress-text">${goal.current} / ${goal.target}</div>
+            `;
+            goalsList.appendChild(item);
+        });
+    }
+    deleteGoal(id) {
+        if (!confirm('¿Eliminar esta meta?')) return;
+        const goals = this.storage.getGoals();
+        const filtered = goals.filter(g => g.id !== id);
+        this.storage.saveGoals(filtered);
+        this.loadGoals();
+        this.showToast('Meta eliminada', 'success');
+    }
+    checkReminders() {
+        const config = this.storage.getUserConfig();
+        if (!config || !config.reminders || !config.reminders.enabled) return;
+        const now = new Date();
+        const reminderTime = config.reminders.time.split(':');
+        const reminderHour = parseInt(reminderTime[0]);
+        const reminderMinute = parseInt(reminderTime[1]);
+        const lastReminder = localStorage.getItem('lastReminder');
+        const today = new Date().toDateString();
+        if (lastReminder === today) return;
+        if (now.getHours() === reminderHour && now.getMinutes() >= reminderMinute) {
+            const entries = this.storage.getAllEntries();
+            const todayEntries = entries.filter(e => new Date(e.date).toDateString() === today);
+            if (todayEntries.length === 0) {
+                this.showToast('📖 Recuerda escribir en tu diario hoy', 'info');
+                localStorage.setItem('lastReminder', today);
+            }
+        }
+        setInterval(() => this.checkReminders(), 60000);
+    }
+    logout() {
+        if (confirm('¿Cerrar sesión?')) {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('password').value = '';
+            this.currentEntry = null;
+        }
+    }
+    showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'slideInRight 0.3s ease reverse';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+}
+
+// Start app
+const app = new DiaryApp();
+    </script>
+</body>
+</html>
