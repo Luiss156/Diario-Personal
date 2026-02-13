@@ -607,9 +607,13 @@ h4, .stat-card h4, .editor-mood-section h4 {
 .calendar-grid { 
     display: grid; 
     grid-template-columns: repeat(7, 1fr); 
-    gap: 6px; 
+    gap: 6px;
+    /* ✅ AGREGAR ESTAS LÍNEAS: */
+    margin: 0 auto;
+    max-width: 100%;
 }
 
+/* ✅ TAMBIÉN AGREGAR PARA LOS NOMBRES DE DÍAS: */
 .calendar-day-name {
     text-align: center;
     font-size: 0.72rem;
@@ -618,6 +622,10 @@ h4, .stat-card h4, .editor-mood-section h4 {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    /* ✅ AGREGAR: */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .calendar-day {
@@ -634,6 +642,8 @@ h4, .stat-card h4, .editor-mood-section h4 {
     background: var(--bg-card);
     font-weight: 500;
     box-shadow: 0 1px 2px var(--shadow-sm);
+    /* ✅ VERIFICAR QUE TENGA ESTAS PROPIEDADES: */
+    min-height: 40px; /* Altura mínima para mejor visualización */
 }
 
 .calendar-day:hover { 
@@ -1556,7 +1566,13 @@ h4, .stat-card h4, .editor-mood-section h4 {
         transform: translateX(-100%);
         box-shadow: none;
     }
-    
+        .editor-header {
+        padding: 16px 20px;
+        padding-left: 80px; /* ✅ AGREGAR ESTA LÍNEA */
+    }
+  
+    /* También agregar estilo al botón cuando esté activo: */
+
     .sidebar.active { 
         transform: translateX(0);
         box-shadow: 4px 0 24px var(--shadow-lg);
@@ -1564,8 +1580,8 @@ h4, .stat-card h4, .editor-mood-section h4 {
     
     .menu-toggle {
         position: fixed;
-        top: 20px;
-        left: 20px;
+        top: 90%;
+        left: 85%;
         z-index: 101;
         background: var(--sky);
         color: white;
@@ -1584,6 +1600,8 @@ h4, .stat-card h4, .editor-mood-section h4 {
     
     .menu-toggle:active {
         transform: scale(0.95);
+        background: var(--coral); /* Color diferente cuando está abierto */
+
     }
     
     .editor-container { 
@@ -2166,16 +2184,38 @@ class DiaryApp {
             });
         });
     }
-    setupResponsive() {
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-        if (window.innerWidth <= 768) menuToggle.classList.remove('hidden');
-        menuToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768) menuToggle.classList.remove('hidden');
-            else { menuToggle.classList.add('hidden'); sidebar.classList.remove('active'); }
-        });
-    }
+setupResponsive() {
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) menuToggle.classList.remove('hidden');
+    
+    // ✅ CAMBIAR DE:
+    // menuToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
+    
+    // ✅ A ESTO:
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        // Cambia el icono
+        if (sidebar.classList.contains('active')) {
+            menuToggle.textContent = '✕';
+        } else {
+            menuToggle.textContent = '☰';
+        }
+    });
+    
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 768) {
+            menuToggle.classList.remove('hidden');
+        } else { 
+            menuToggle.classList.add('hidden'); 
+            sidebar.classList.remove('active');
+            // ✅ AGREGAR ESTAS DOS LÍNEAS:
+            menuToggle.classList.remove('active');
+            menuToggle.textContent = '☰';
+        }
+    });
+}
         checkLogin() {
         const config = this.storage.getUserConfig();
         const usernameGroup = document.getElementById('usernameGroup');
@@ -2456,6 +2496,8 @@ class DiaryApp {
         text.textContent = 'Guardando...';
         this.saveTimeout = setTimeout(async () => {
             await this.saveCurrentEntry();
+            // ✅ AGREGAR ESTA LÍNEA:
+            await this.loadEntries();
             indicator.className = 'save-indicator saved';
             text.textContent = 'Guardado';
             setTimeout(() => {
